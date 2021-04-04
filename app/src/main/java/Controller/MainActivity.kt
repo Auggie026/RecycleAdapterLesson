@@ -4,6 +4,8 @@ import Adapters.CategoryAdapter
 import Adapters.CategoryRecycleAdapter
 import Model.Category
 import Services.DataService
+import Utilities.EXTRA_CATEGORY
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -19,7 +21,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        adapter = CategoryRecycleAdapter(this, DataService.categories)
+        adapter = CategoryRecycleAdapter(this, DataService.categories) {
+            category ->
+            val productIntent = Intent(this, ProductsActivity::class.java)
+            productIntent.putExtra(EXTRA_CATEGORY, category.tittle)
+            startActivity(productIntent)
+        }
 
         categoryListView.adapter = adapter
 
@@ -31,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 //            val category = DataService.categories[i]
 //            Toast.makeText(this, "You clicke on the ${category.tittle} cell", Toast.LENGTH_SHORT).show()
 //        }
+
 
     }
 }
